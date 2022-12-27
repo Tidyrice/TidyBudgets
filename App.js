@@ -1,32 +1,40 @@
 import * as React from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
-import HomeScreen from './Screens/Home.js';
+//screens
+import HomeStackScreen from './Screens/Home.js';
 import StatisticsScreen from './Screens/Statistics.js';
 import ProfileScreen from './Screens/Profile.js';
 
-const Stack = createNativeStackNavigator();
+//stack navigators
+export const HomeStack = createNativeStackNavigator();
+const StatisticsStack = createNativeStackNavigator();
+const ProfileStack = createNativeStackNavigator();
 
-const App = () => {
+//bottom tab navigator
+const Tab = createMaterialBottomTabNavigator();
 
-  //Write data read/write code here:
+//data
+import { Save, Load } from './Data Management/SaveSystem.js';
+let data = Load();
 
+export default function App() {
+  
   return (
-
+    
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Home'>
-        <Stack.Screen name = "Home" component = {HomeScreen}/>
-        <Stack.Screen name = "Statistics" component = {StatisticsScreen} options = {{ title: "Statistics" }}/>
-        <Stack.Screen name = "Profile" component = {ProfileScreen} options = {{ title: "Profile" }}/>
-      </Stack.Navigator>
+      <Tab.Navigator backBehavior = "history" initialRouteName= 'Home'>
+        <Tab.Screen name = "Home" component = {HomeStackScreen}/>
+        <Tab.Screen name = "Statistics" component = {StatisticsScreen} options = {{ title: "Statistics" }}/>
+        <Tab.Screen name = "Profile" component = {ProfileScreen} options = {{ title: "Profile" }}/>
+      </Tab.Navigator>
     </NavigationContainer>
 
   );
 }
-
-export default App;
 
 //default styles
 const styles = StyleSheet.create({

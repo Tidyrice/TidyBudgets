@@ -1,18 +1,15 @@
 import { StyleSheet, Text, View, SafeAreaView, Button } from 'react-native';
+import { HomeStack } from '../App';
+import { MonthSummary, AddSpendingScreen } from './MonthSummary';
 
-export default function Home( {navigation} ) {
+export default function HomeStackScreen() {
 
-    navigation.setOptions({ title: 'November 2022' });
+  return(
 
-    return(
-
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Home Screen</Text>
-        <Button
-          title="Go to Statistics"
-          onPress={() => navigation.navigate('Statistics')}
-        />
-        </View>
-
-    );
+    <HomeStack.Navigator>
+      <HomeStack.Screen name = "Home" component = {MonthSummary}/>
+      <HomeStack.Screen name = "Add" component = {AddSpendingScreen}/>
+    </HomeStack.Navigator>
+    
+  );
 }
