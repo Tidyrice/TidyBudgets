@@ -6,12 +6,14 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 
 //screens
 import HomeStackScreen from './Screens/Home.js';
-import StatisticsScreen from './Screens/Statistics.js';
+import StatsScreen from './Screens/Stats.js';
+import HistoryScreen from './Screens/History.js';
 import ProfileScreen from './Screens/Profile.js';
 
 //stack navigators
 export const HomeStack = createNativeStackNavigator();
-const StatisticsStack = createNativeStackNavigator();
+const StatsStack = createNativeStackNavigator();
+const HistoryStack = createNativeStackNavigator();
 const ProfileStack = createNativeStackNavigator();
 
 //bottom tab navigator
@@ -19,16 +21,17 @@ const Tab = createMaterialBottomTabNavigator();
 
 //data
 import { Save, Load } from './Data Management/SaveSystem.js';
-let data = Load();
+export let data = Load();
 
 export default function App() {
   
   return (
     
     <NavigationContainer>
-      <Tab.Navigator backBehavior = "history" initialRouteName= 'Home'>
+      <Tab.Navigator backBehavior = "history" initialRouteName= "Home">
         <Tab.Screen name = "Home" component = {HomeStackScreen}/>
-        <Tab.Screen name = "Statistics" component = {StatisticsScreen} options = {{ title: "Statistics" }}/>
+        <Tab.Screen name = "Statistics" component = {StatsScreen} options = {{ title: "Stats" }}/>
+        <Tab.Screen name = "History" component = {HistoryScreen} options = {{ title: "History" }}/>
         <Tab.Screen name = "Profile" component = {ProfileScreen} options = {{ title: "Profile" }}/>
       </Tab.Navigator>
     </NavigationContainer>

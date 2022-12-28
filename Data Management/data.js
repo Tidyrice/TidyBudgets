@@ -17,9 +17,9 @@ export class monthData {
 //Spending object
 export class spending {
 
-    day; //integer (e.g. 24)
-    type;
+    date; //date object
+    type; //Housing, Transportation, Food, Utilities, Investment, Personal, Recreational, Insurance, Medical, Misc.
     cost;
-    location;
+    location; //optional
 
 }

@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 
-export default function Statistics( {navigation} ) {
+export default function History( {navigation} ) {
     return(
 
         <SafeAreaView>
-            <Text>STATISTICS SCREEN</Text>
+            <Text>HISTORY SCREEN</Text>
         </SafeAreaView>
         
     );
