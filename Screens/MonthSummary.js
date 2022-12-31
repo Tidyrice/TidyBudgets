@@ -1,10 +1,18 @@
 import { StyleSheet, Text, View, SafeAreaView, Button, FlatList, StatusBar, TouchableOpacity } from 'react-native';
+//import { SaveMonth, LoadMonth } from '../Data Management/SaveSystem';
+import { CurrentMonth, CurrentMonthEnglish, CurrentYear } from '../scripts';
 
 //takes in parameter month (string) and spending (array of spending objects)
 export function MonthSummary( {navigation} ) {
 
+    /*let data = LoadMonth();
+
+    if (data == null) {
+
+    }*/
+
     navigation.setOptions({ 
-        headerTitle: 'November 2022',
+        headerTitle: CurrentMonthEnglish() + " " + CurrentYear(),
         headerRight: () => (
             <Button
                 title = "New Spending"
