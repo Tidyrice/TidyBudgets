@@ -1,35 +1,37 @@
-import * as fs from "react-native-fs";
+import * as fs from 'expo-file-system'
+import { MonthData } from './data';
 
 //functions to manage how to save/load data from the local database
 //data should be an object (JSON format)
 export async function SaveMonth(year, month, data) {
 
     //create the storage folder
-    const folderPath = `${fs.DocumentDirectoryPath}/months`
-    await fs.mkdir(folderPath);
+    const folderPath = fs.documentDirectory + "months";
+    await fs.makeDirectoryAsync(folderPath);
 
     //write file
-    const path = `${fs.DocumentDirectoryPath}/months/${year}-${month}.json`
+    const path = folderPath + `/${year}-${month}.json`;
+
 
     try {
-        await fs.writeFile(path, JSON.stringify(data), 'utf8');
+        await fs.writeAsStringAsync(path, JSON.stringify(data), 'utf8');
     } catch (e) {
         console.log('error', e);
     }
 
 }
 
-export async function LoadMonth(year, month) { //returns null if no file present
+export async function LoadMonth(year, month) { //returns default MonthData object if no file present
 
-    const path = `${fs.DocumentDirectoryPath}/months/${year}-${month}.json`
+    const path = fs.documentDirectory + `months/${year}-${month}.json`
 
     //does the file exist?
-    if (!fs.exists(path)) {
-        return null;
+    if (!(await fs.getInfoAsync(path)).exists) {
+        return new MonthData;
     }
 
     //read file
-    const data = await JSON.parse(fs.readFile(path, 'utf8'));
+    const data = await JSON.parse(fs.readAsStringAsync(path, 'utf8'));
     return data;
 
 }
