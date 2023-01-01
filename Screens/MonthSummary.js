@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, Button, FlatList, StatusBar, TouchableOpacity } from 'react-native';
 import { SaveMonth, LoadMonth } from '../Data Management/SaveSystem';
 import { CurrentMonth, CurrentMonthEnglish, CurrentYear } from '../scripts';
@@ -7,14 +8,16 @@ export function MonthSummary( {route, navigation} ) {
 
     let monthData = route.params;
 
-    navigation.setOptions({ 
-        title: "November 2004",
-        headerRight: () => (
-            <Button
-                title = "New Spending"
-                onPress={() => navigation.navigate('Add')}
-        />)
-    });
+    useEffect(() => {
+        navigation.setOptions({ 
+            title: "November 2004",
+            headerRight: () => (
+                <Button
+                    title = "New Spending"
+                    onPress={() => navigation.navigate('Add')}
+            />)
+        });
+    })
 
     return(
 
