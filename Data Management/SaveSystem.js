@@ -27,7 +27,10 @@ export async function LoadMonth(year, month) { //returns default MonthData objec
 
     //does the file exist?
     if (!(await fs.getInfoAsync(path)).exists) {
-        return new MonthData;
+        
+        const empty = new MonthData(year, month);
+        return empty;
+
     }
 
     //read file

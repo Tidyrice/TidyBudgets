@@ -1,7 +1,7 @@
-export function CurrentMonth() {
+export function CurrentMonth() { //returns 1-12 (January -> 1, December -> 12)
 
     const date = new Date();
-    return date.getMonth();
+    return date.getMonth() + 1;
 
 }
 

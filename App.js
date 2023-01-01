@@ -19,11 +19,6 @@ const ProfileStack = createNativeStackNavigator();
 //bottom tab navigator
 const Tab = createMaterialBottomTabNavigator();
 
-//data
-import { SaveMonth, LoadMonth } from './Data Management/SaveSystem.js';
-import { CurrentMonth, CurrentYear } from './scripts.js';
-let currentMonthData = LoadMonth(CurrentYear(), CurrentMonth());
-
 export default function App() {
   
   return (

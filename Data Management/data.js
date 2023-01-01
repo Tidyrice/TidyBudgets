@@ -1,9 +1,13 @@
 //This is passed in to the MonthSummary screen to display a specific month's spendings
 export class MonthData {
 
+    year;
+    month;
     spendingArray; //array of spending objects sorted based on date
-    
-    constructor() {
+
+    constructor(year, month) {
+        this.year = year;
+        this.month = month;
         this.spendingArray = [];
     }
 

@@ -3,7 +3,9 @@ import { SaveMonth, LoadMonth } from '../Data Management/SaveSystem';
 import { CurrentMonth, CurrentMonthEnglish, CurrentYear } from '../scripts';
 
 //takes in parameter month (string) and spending (array of spending objects)
-export function MonthSummary( {navigation} ) {
+export function MonthSummary( {route, navigation} ) {
+
+    let monthData = route.params;
 
     navigation.setOptions({ 
         title: "November 2004",
