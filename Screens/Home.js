@@ -1,21 +1,27 @@
 import { HomeStack } from '../App';
 import { MonthSummary, AddSpendingScreen } from './MonthSummary';
-
-//data
-import { LoadMonthAsync } from '../Data Management/SaveSystem.js';
-import { CurrentMonth, CurrentYear } from '../scripts.js'
-
-let currentMonthData = LoadMonthAsync(CurrentYear(), CurrentMonth());
-console.log(currentMonthData);
+import { CurrentYear, CurrentMonth } from '../scripts.js'
+import { MonthSummaryParameter } from '../Data Management/data';
 
 export default function HomeStackScreen() {
 
   return(
 
     <HomeStack.Navigator>
-      <HomeStack.Screen name = "CurrentMonth" component = {MonthSummary} initialParams = {currentMonthData}/>
-      <HomeStack.Screen name = "Add" component = {AddSpendingScreen}/>
+
+      <HomeStack.Screen
+        name = "CurrentMonth"
+        component = {MonthSummary}
+        initialParams = {new MonthSummaryParameter(CurrentYear(), CurrentMonth())}
+      />
+
+      <HomeStack.Screen
+        name = "Add"
+        component = {AddSpendingScreen}
+      />
+
     </HomeStack.Navigator>
     
   );
+
 }

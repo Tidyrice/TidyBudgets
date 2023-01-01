@@ -2,7 +2,7 @@
 export class MonthData {
 
     year;
-    month;
+    month; //string
     spendingArray; //array of spending objects sorted based on date
 
     constructor(year, month) {
@@ -45,6 +45,17 @@ export class Spending {
         this.location = location;
     }
 
+}
+
+export class MonthSummaryParameter { //the parameter that is passed into MonthSummary
+
+    year;
+    month;
+
+    constructor(year, month) {
+        this.year = year;
+        this.month = month;
+    }
 }
 
 export class Profile {

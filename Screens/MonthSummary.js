@@ -1,23 +1,30 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, Button, FlatList, StatusBar, TouchableOpacity } from 'react-native';
-import { SaveMonth, LoadMonth } from '../Data Management/SaveSystem';
-import { CurrentMonth, CurrentMonthEnglish, CurrentYear } from '../scripts';
+import { LoadMonthAsync } from '../Data Management/SaveSystem';
+import { ConvertMonthEnglish } from '../scripts';
 
-//takes in parameter month (string) and spending (array of spending objects)
+//takes in MonthSummaryParamter object as parameter (see data.js)
 export function MonthSummary( {route, navigation} ) {
 
-    let monthData = route.params;
+    let [monthData, setMonthData] = useState({});
 
     useEffect(() => {
-        navigation.setOptions({ 
-            title: "November 2004",
-            headerRight: () => (
-                <Button
-                    title = "New Spending"
-                    onPress={() => navigation.navigate('Add')}
-            />)
+        LoadMonthAsync(route.params.year, route.params.month)
+        .then(data => {
+
+            setMonthData(data); //load data
+
+            navigation.setOptions({ //configure header bar
+                title: ConvertMonthEnglish(data.month) + " " + data.year,
+                headerRight: () => (
+                    <Button
+                        title = "New Spending"
+                        onPress={() => navigation.navigate('Add')}
+                />)
+            });
+            
         });
-    })
+    }, []);
 
     return(
 

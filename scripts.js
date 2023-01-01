@@ -1,3 +1,10 @@
+export function CurrentYear() {
+
+    const date = new Date();
+    return date.getFullYear();
+
+}
+
 export function CurrentMonth() { //returns 1-12 (January -> 1, December -> 12)
 
     const date = new Date();
@@ -13,9 +20,9 @@ export function CurrentMonthEnglish() {
 
 }
 
-export function CurrentYear() {
+export function ConvertMonthEnglish(month) {
 
-    const date = new Date();
-    return date.getFullYear();
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    return months[month - 1];
 
 }
