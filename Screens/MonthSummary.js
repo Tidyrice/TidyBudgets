@@ -1,13 +1,14 @@
+import { Picker } from '@react-native-picker/picker';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, Button, FlatList, StatusBar, TouchableOpacity } from 'react-native';
-import { Spending } from '../Data Management/data';
+import { TextInput } from 'react-native-paper';
 import { LoadMonthAsync } from '../Data Management/SaveSystem';
 import { ConvertMonthEnglish } from '../scripts';
 
 //takes in MonthSummaryParamter object as parameter (see data.js)
 export function MonthSummary( {route, navigation} ) {
-
-    let [monthData, setMonthData] = useState({});
+    
+    const [monthData, setMonthData] = useState({});
 
     useEffect(() => {
         LoadMonthAsync(route.params.year, route.params.month)
@@ -47,11 +48,54 @@ export function MonthSummary( {route, navigation} ) {
 }
 
 export function AddSpendingScreen( {navigation} ) {
+
+    const [cost, setCost] = useState();
+    const [type, setType] = useState();
+    const [vendor, setVendor] = useState();
+
     return (
   
-      <Text>ADD SPENDING SCREEN!</Text>
+        <SafeAreaView>
+
+            <TextInput style = { styles.textInput }
+                value = { cost }
+                onChangeText = { setCost }
+                label = "Cost"
+                placeholder = "$"
+                maxLength = {9}
+                keyboardType = "numeric"
+                
+            />
+
+            <TextInput style = { styles.textInput }
+                value = { vendor }
+                onChangeText = { setVendor }
+                label = "Vendor (optional)"
+                maxLength = {30}
+            />
+
+            <Picker style = { styles.textInput }
+                selectedValue = { type }
+                onValueChange={(itemValue) =>
+                    setType(itemValue)
+                }
+                //mode = "dropdown"
+                >
+                <Picker.Item label = "Food" value = "java" />
+                <Picker.Item label = "Housing" value = "js" />
+            </Picker>
+
+            <Button
+                title = "Add"
+                onPress={() => {
+                    navigation.navigate("CurrentMonth")
+                }}
+            />
+
+        </SafeAreaView>
   
-    )
+    );
+
 }
 
 //formatting for each element in FlatList
@@ -116,6 +160,11 @@ const styles = StyleSheet.create({
         alignSelf: "flex-end",
         paddingLeft: 8,
         fontSize: 28,
+    },
+    textInput: {
+        borderWidth: 1,
+        margin: 12,
+        padding: 10,
     },
 
 });

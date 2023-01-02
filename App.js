@@ -24,7 +24,7 @@ export default function App() {
   return (
     
     <NavigationContainer>
-      <Tab.Navigator backBehavior = "history" initialRouteName= "Home">
+      <Tab.Navigator initialRouteName= "Home">
         <Tab.Screen name = "Home" component = {HomeStackScreen}/>
         <Tab.Screen name = "Statistics" component = {StatsScreen} options = {{ title: "Stats" }}/>
         <Tab.Screen name = "History" component = {HistoryScreen} options = {{ title: "History" }}/>
