@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, Button, FlatList, StatusBar, TouchableOpacity } from 'react-native';
+import { Spending } from '../Data Management/data';
 import { LoadMonthAsync } from '../Data Management/SaveSystem';
 import { ConvertMonthEnglish } from '../scripts';
 
@@ -19,7 +20,7 @@ export function MonthSummary( {route, navigation} ) {
                 headerRight: () => (
                     <Button
                         title = "New Spending"
-                        onPress={() => navigation.navigate('Add')}
+                        onPress={() => navigation.navigate("Add Spending")}
                 />)
             });
             
@@ -31,11 +32,11 @@ export function MonthSummary( {route, navigation} ) {
         <SafeAreaView style = { styles.container }>
 
             <View style = { styles.titleContainer }>
-                <Text style = { styles.title }>Total Spending: $420.69</Text>
+                <Text style = { styles.title }>Total Spending: ${monthData.totalSpending}</Text>
             </View>
 
             <FlatList
-                data = {DATA}
+                data = {monthData.spendingArray}
                 renderItem = {renderItem}
             />
 
@@ -45,7 +46,7 @@ export function MonthSummary( {route, navigation} ) {
 
 }
 
-export function AddSpendingScreen() {
+export function AddSpendingScreen( {navigation} ) {
     return (
   
       <Text>ADD SPENDING SCREEN!</Text>
@@ -53,56 +54,18 @@ export function AddSpendingScreen() {
     )
 }
 
-const DATA = [ //SILLY DATA FOR DEBUGGING PURPOSES
-    {
-        title: "Nov. 28",
-        type: "Food",
-        cost: "$5.00",
-        location: "Lazzez",
-    },
-    {
-        title: "Nov. 21",
-        type: "Transportation",
-        cost: "$270.00",
-        location: "Edmonton Public Libraries",
-    },
-    {
-        title: "Nov. 20",
-        type: "--",
-        cost: "$5.00",
-        location: "Lazeez",
-    },
-    {
-        title: "Nov. 17",
-        type: "Food",
-        cost: "$5.00",
-        location: "Lazeez",
-    },
-    {
-        title: "Nov. 13",
-        type: "Food",
-        cost: "$5.00",
-        location: "Lazeez",
-    },
-    {
-        title: "Nov. 1",
-        type: "Food",
-        cost: "$5.00",
-        location: "Lazeez",
-    },
-];
-
+//formatting for each element in FlatList
 const renderItem = ({ item }) => (
     <View style = { styles.listItem }>
 
         <View style = {{ flex: -1 }}>
-            <Text style = { styles.itemDate }>{ item.title }</Text>
+            <Text style = { styles.itemDate }>{ ConvertMonthEnglish(item.date.getMonth()) } { item.date.getDate() }</Text>
             <Text style = { styles.itemLocation }>{ item.location }</Text>
             <Text style = { styles.itemType }>{ item.type }</Text>
         </View>
 
         <View>
-            <Text style = { styles.itemCost }>{ item.cost }</Text>
+            <Text style = { styles.itemCost }>${ item.cost }</Text>
         </View>
 
     </View>

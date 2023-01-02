@@ -16,7 +16,7 @@ export default function HomeStackScreen() {
       />
 
       <HomeStack.Screen
-        name = "Add"
+        name = "Add Spending"
         component = {AddSpendingScreen}
       />
 

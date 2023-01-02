@@ -4,21 +4,25 @@ export class MonthData {
     year;
     month; //string
     spendingArray; //array of spending objects sorted based on date
+    totalSpending;
 
     constructor(year, month) {
         this.year = year;
         this.month = month;
         this.spendingArray = [];
+        this.totalSpending = 0;
     }
 
     //add new Spending object sorted based on date
     newSpending(spending) {
-
+        this.totalSpending += spending.cost;
+        this.spendingArray.unshift(spending);
     }
 
-    //delete Spending Object (assume an object with the specified date exists)
-    removeSpending(date) {
-
+    //delete Spending Object (assume the index exists)
+    removeSpending(index) {
+        this.totalSpending -= this.spendingArray[index].cost;
+        this.spendingArray.splice(index, 1);
     }
 
 }

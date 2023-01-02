@@ -33,10 +33,10 @@ export async function LoadMonthAsync(year, month) { //returns default MonthData 
         return empty;
 
     }
-
+    
     //read file
     const data = await JSON.parse(fs.readAsStringAsync(path, 'utf8'));
-    return data;
+    return Object.assign(new MonthData(), data);
 
 }
 
