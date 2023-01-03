@@ -13,7 +13,6 @@ export async function SaveMonthAsync(year, month, data) {
     //write file
     const path = folderPath + `/${year}-${month}.json`;
 
-
     try {
         await fs.writeAsStringAsync(path, JSON.stringify(data), 'utf8');
     } catch (e) {
@@ -33,7 +32,7 @@ export async function LoadMonthAsync(year, month) { //returns default MonthData 
         return empty;
 
     }
-    
+
     //read file
     const data = await JSON.parse(fs.readAsStringAsync(path, 'utf8'));
     return Object.assign(new MonthData(), data);

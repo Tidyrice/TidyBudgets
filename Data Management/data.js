@@ -1,9 +1,11 @@
+import { spliceIndex } from "../scripts";
+
 //This is passed in to the MonthSummary screen to display a specific month's spendings
 export class MonthData {
 
     year;
     month; //string
-    spendingArray; //array of spending objects sorted based on date
+    spendingArray; //array of spending objects sorted based on date (recent first)
     totalSpending;
 
     constructor(year, month) {
@@ -16,7 +18,7 @@ export class MonthData {
     //add new Spending object sorted based on date
     newSpending(spending) {
         this.totalSpending += spending.cost;
-        this.spendingArray.unshift(spending);
+        this.spendingArray.splice(spliceIndex(this.spendingArray, spending), 0, spending);
     }
 
     //delete Spending Object (assume the index exists)
@@ -30,23 +32,31 @@ export class MonthData {
 //Spending object
 export class Spending {
 
-    date; //date object
-    type; //Housing, Transportation, Food, Utilities, Investment, Personal, Recreational, Insurance, Medical, Misc.
+    date; //date object (JSON serialized)
+    type; //Food, Housing, Investment, Insurance, Medical, Personal, Recreational, Transportation, Utilities, Misc.
     cost;
-    location; //optional
+    vendor; //optional
 
-    constructor(date, type, cost, location) {
-        this.date = date;
+    constructor(date, type, cost, vendor) {
+        this.date = date.toJSON();
         this.type = type;
         this.cost = cost;
-        this.location = location;
+        if (vendor == null) {
+            this.vendor = "- - -";
+        } else {
+            this.vendor = vendor;
+        }
     }
 
-    update(date, type, cost, location) {
-        this.date = date;
+    update(date, type, cost, vendor) {
+        this.date = date.toJSON();
         this.type = type;
         this.cost = cost;
-        this.location = location;
+        if (vendor == null) {
+            this.vendor = "--";
+        } else {
+            this.vendor = vendor;
+        }
     }
 
 }
@@ -56,7 +66,7 @@ export class MonthSummaryParameter { //the parameter that is passed into MonthSu
     year;
     month;
 
-    constructor(year, month) {
+    constructor(year, month, updatedData) {
         this.year = year;
         this.month = month;
     }

@@ -26,3 +26,25 @@ export function ConvertMonthEnglish(month) {
     return months[month];
 
 }
+
+export function spliceIndex(spendingArray, spending) { //for MonthData.newSpending()
+
+    if (spendingArray.length == 0)
+        return 0;
+
+    const targetDate = new Date(spending.date);
+
+    let low = 0;
+    let high = spendingArray.length;
+
+    while (low < high) {
+        var mid = Math.floor((low + high) / 2);
+        if (new Date(spendingArray[mid].date) > targetDate) {
+            low = mid + 1;
+        }
+        else high = mid;
+    }
+
+    return low;
+
+}
