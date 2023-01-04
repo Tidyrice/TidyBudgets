@@ -18,31 +18,56 @@ import ProfileScreen from './Screens/Profile.js';
 
 //bottom tab navigator
 const Tab = createMaterialBottomTabNavigator();
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 export default function App() {
   
   return (
     
     <NavigationContainer>
-      <Tab.Navigator initialRouteName= "Home">
-        <Tab.Screen name = "Home" component = {HomeStackScreen}/>
-        <Tab.Screen name = "Statistics" component = {StatsScreen} options = {{ title: "Stats" }}/>
-        <Tab.Screen name = "History" component = {HistoryScreen} options = {{ title: "History" }}/>
-        <Tab.Screen name = "Profile" component = {ProfileScreen} options = {{ title: "Profile" }}/>
+      <Tab.Navigator initialRouteName = "Home" activeColor = "#ef5d8d" barStyle = {{backgroundColor: "white"}}>
+        <Tab.Screen name = "Home"
+          component = {HomeStackScreen}
+          options = {{
+            title: "Home",
+            tabBarIcon: ({color}) => (
+              <MaterialIcons name = "home" color = {color} size = {26} />
+            ),
+          }}
+        />
+        <Tab.Screen name = "Statistics"
+          component = {StatsScreen}
+          options = {{
+            title: "Stats",
+            tabBarIcon: ({color}) => (
+              <MaterialIcons name = "analytics" color = {color} size = {26} />
+            ),
+          }}
+        />
+        <Tab.Screen name = "History"
+          component = {HistoryScreen} 
+          options = {{
+            title: "History",
+            tabBarIcon: ({color}) => (
+              <MaterialIcons name = "history" color = {color} size = {26} />
+            ),
+          }}
+        />
+        <Tab.Screen name = "Profile"
+          component = {ProfileScreen}
+          options = {{
+            title: "Profile",
+            tabBarIcon: ({color}) => (
+              <MaterialIcons name = "person" color = {color} size = {26} />
+            ),
+          }}
+        />
       </Tab.Navigator>
     </NavigationContainer>
 
   );
 }
 
-//default styles
 const styles = StyleSheet.create({
-
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
 
 });

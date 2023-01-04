@@ -42,10 +42,10 @@ export function MonthSummary( {route, navigation} ) {
 
     return(
 
-        <SafeAreaView style = { styles.container }>
+        <SafeAreaView style = {styles.container}>
 
-            <View style = { styles.titleContainer }>
-                <Text style = { styles.title }>Total Spending: {FormatCurrency(monthData.totalSpending)}</Text>
+            <View style = {styles.titleContainer}>
+                <Text style = {styles.title}>Total Spending: {FormatCurrency(monthData.totalSpending)}</Text>
             </View>
 
             <FlatList
@@ -72,10 +72,10 @@ export function AddSpendingScreen( {route, navigation} ) {
   
         <SafeAreaView>
 
-            <Pressable style = { styles.datePickerButton }
+            <Pressable style = {styles.datePickerButton}
                 onPress={() => setOpen(true)}
             >
-                <Text style = { styles.datePickerText }>Select date: {ConvertMonthEnglish(date.getMonth())} {date.getDate()}, {date.getFullYear()}</Text>
+                <Text style = {styles.datePickerText}>Select date: {ConvertMonthEnglish(date.getMonth())} {date.getDate()}, {date.getFullYear()}</Text>
             </Pressable>
             <DatePicker modal
                 mode = "date"
@@ -92,28 +92,29 @@ export function AddSpendingScreen( {route, navigation} ) {
                 maximumDate = {new Date()}
             />
 
-            <Picker style = { styles.picker }
-                selectedValue = { type }
-                onValueChange={(itemValue) =>
-                    setType(itemValue)
-                }
+            <View style = {styles.picker}>
+                <Picker
+                    selectedValue = {type}
+                    onValueChange={(itemValue) =>
+                        setType(itemValue)
+                    }
                 >
-                <Picker.Item label = "Select type..." value = { null }/>
-                <Picker.Item label = "Food" value = "Food" />
-                <Picker.Item label = "Housing" value = "Housing" />
-                <Picker.Item label = "Investment" value = "Investment" />
-                <Picker.Item label = "Insurance" value = "Insurance" />
-                <Picker.Item label = "Medical" value = "Medical" />
-                <Picker.Item label = "Personal" value = "Personal" />
-                <Picker.Item label = "Recreational" value = "Recreational" />
-                <Picker.Item label = "Transportation" value = "Transportation" />
-                <Picker.Item label = "Utilities" value = "Utilities" />
-                <Picker.Item label = "Misc." value = "Misc." />
-            </Picker>
+                    <Picker.Item label = "Select type..." value = {null}/>
+                    <Picker.Item label = "Food" value = "Food" />
+                    <Picker.Item label = "Housing" value = "Housing" />
+                    <Picker.Item label = "Investment" value = "Investment" />
+                    <Picker.Item label = "Insurance" value = "Insurance" />
+                    <Picker.Item label = "Medical" value = "Medical" />
+                    <Picker.Item label = "Personal" value = "Personal" />
+                    <Picker.Item label = "Recreational" value = "Recreational" />
+                    <Picker.Item label = "Transportation" value = "Transportation" />
+                    <Picker.Item label = "Misc." value = "Misc." />
+                </Picker>
+            </View>
 
-            <TextInput style = { styles.textInput }
-                value = { cost }
-                onChangeText = { setCost }
+            <TextInput style = {styles.textInput}
+                value = {cost}
+                onChangeText = {setCost}
                 label = "Cost"
                 placeholder = "$"
                 maxLength = {8}
@@ -121,15 +122,15 @@ export function AddSpendingScreen( {route, navigation} ) {
                 
             />
 
-            <TextInput style = { styles.textInput }
-                value = { vendor }
-                onChangeText = { setVendor }
+            <TextInput style = {styles.textInput}
+                value = {vendor}
+                onChangeText = {setVendor}
                 label = "Vendor (optional)"
                 maxLength = {30}
             />
   
             <Pressable
-                style = {({ pressed }) => [
+                style = {({pressed}) => [
                     {
                         opacity: pressed
                         ? 0.5
@@ -139,17 +140,20 @@ export function AddSpendingScreen( {route, navigation} ) {
                 ]}
                 onPress = {() => {
                     if (type == null) {
-                        return Alert.alert("Error", "Please select a type.", [{text: "OK"}], { cancelable: true });
+                        return Alert.alert("Error", "Please select a type.", [{text: "OK"}], {cancelable: true});
                     }
                     if (cost == null) {
-                        return Alert.alert("Error", "Please input the cost.", [{text: "OK"}], { cancelable: true });
+                        return Alert.alert("Error", "Please input the cost.", [{text: "OK"}], {cancelable: true});
+                    }
+                    if (isNaN(cost) || isNaN(parseFloat(cost))) {
+                        return Alert.alert("Error", "Cost should be a number.", [{text: "OK"}], {cancelable: true});
                     }
                     route.params.monthData.newSpending(new Spending(date, type, parseFloat(cost), vendor));
                     route.params.trigger(1);
                     navigation.navigate("CurrentMonth");
                 }}
             >
-                <Text style = { styles.saveText }>Save</Text>
+                <Text style = {styles.saveText}>Save</Text>
             </Pressable>
 
         </SafeAreaView>
@@ -158,17 +162,17 @@ export function AddSpendingScreen( {route, navigation} ) {
 }
 
 //formatting for each element in FlatList
-const renderItem = ({ item }) => (
+const renderItem = ({item}) => (
     <Pressable style = { styles.listItem }>
 
         <View style = {{ flex: -1 }}>
-            <Text style = { styles.itemDate }>{ ConvertMonthEnglish(new Date(item.date).getMonth()) } { new Date(item.date).getDate() }</Text>
-            <Text style = { styles.itemVendor }>{ item.vendor }</Text>
-            <Text style = { styles.itemType }>{ item.type }</Text>
+            <Text style = {styles.itemDate}>{ConvertMonthEnglish(new Date(item.date).getMonth())} {new Date(item.date).getDate()}</Text>
+            <Text style = {styles.itemVendor}>{item.vendor}</Text>
+            <Text style = {styles.itemType}>{item.type}</Text>
         </View>
 
         <View>
-            <Text style = { styles.itemCost }>{ FormatCurrency(item.cost) }</Text>
+            <Text style = {styles.itemCost}>{FormatCurrency(item.cost)}</Text>
         </View>
 
     </Pressable>
@@ -184,7 +188,6 @@ const styles = StyleSheet.create({
     titleContainer: {
         padding: 20,
         backgroundColor: "white",
-        shadowColor: "black",
         elevation: 10,
     },
     title: {
@@ -201,7 +204,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "space-between",
         padding: 20,
-        marginTop: 10,
+        margin: 10,
         marginHorizontal: 12,
     },
     itemDate: {
@@ -225,21 +228,30 @@ const styles = StyleSheet.create({
     //styles for Add Spending screen
     textInput: {
         backgroundColor: "#EDE3FE",
+        borderColor: "gray",
+        borderWidth: 1,
         borderRadius: 4,
         margin: 12,
         padding: 10,
+        elevation: 3,
     },
     picker: {
         backgroundColor: "#EDE3FE",
+        borderColor: "gray",
         borderWidth: 1,
+        borderRadius: 4,
         margin: 12,
+        elevation: 3,
     },
     datePickerButton: {
         backgroundColor: "#EDE3FE",
+        borderColor: "gray",
+        borderWidth: 1,
         borderRadius: 4,
         margin: 12,
         marginTop: 24,
         padding: 10,
+        elevation: 3,
     },
     datePickerText: {
         fontSize: 16,
@@ -252,7 +264,7 @@ const styles = StyleSheet.create({
     saveButton: {
         backgroundColor: "#EDE3FE",
         borderColor: "gray",
-        borderWidth: 1,
+        borderWidth: 2,
         borderRadius: 4,
         margin: 12,
         padding: 10,

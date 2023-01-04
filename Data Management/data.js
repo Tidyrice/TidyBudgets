@@ -6,7 +6,7 @@ export class MonthData {
     year;
     month; //string
     spendingArray; //array of spending objects sorted based on date (recent first)
-    totalSpending;
+    totalSpending; //float
 
     constructor(year, month) {
         this.year = year;
@@ -33,8 +33,8 @@ export class MonthData {
 export class Spending {
 
     date; //date object (JSON serialized)
-    type; //Food, Housing, Investment, Insurance, Medical, Personal, Recreational, Transportation, Utilities, Misc.
-    cost;
+    type; //Food, Housing, Investment, Insurance, Medical, Personal, Recreational, Transportation, Misc.
+    cost; //float
     vendor; //optional
 
     constructor(date, type, cost, vendor) {
