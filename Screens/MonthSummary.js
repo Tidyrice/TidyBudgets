@@ -4,7 +4,7 @@ import { TextInput } from 'react-native-paper';
 import { Picker } from '@react-native-picker/picker';
 import DatePicker from 'react-native-date-picker';
 import { LoadMonthAsync, SaveMonthAsync } from '../Data Management/SaveSystem';
-import { ConvertMonthEnglish } from '../scripts';
+import { ConvertMonthEnglish, FormatCurrency } from '../scripts';
 import { Spending } from '../Data Management/data';
 
 //takes in MonthSummaryParamter object as parameter (see data.js)
@@ -45,7 +45,7 @@ export function MonthSummary( {route, navigation} ) {
         <SafeAreaView style = { styles.container }>
 
             <View style = { styles.titleContainer }>
-                <Text style = { styles.title }>Total Spending: ${monthData.totalSpending}</Text>
+                <Text style = { styles.title }>Total Spending: {FormatCurrency(monthData.totalSpending)}</Text>
             </View>
 
             <FlatList
@@ -116,7 +116,7 @@ export function AddSpendingScreen( {route, navigation} ) {
                 onChangeText = { setCost }
                 label = "Cost"
                 placeholder = "$"
-                maxLength = {9}
+                maxLength = {8}
                 keyboardType = "numeric"
                 
             />
@@ -128,7 +128,15 @@ export function AddSpendingScreen( {route, navigation} ) {
                 maxLength = {30}
             />
   
-            <Pressable style = { styles.addButton }
+            <Pressable
+                style = {({ pressed }) => [
+                    {
+                        opacity: pressed
+                        ? 0.5
+                        : 1
+                    },
+                    styles.saveButton
+                ]}
                 onPress = {() => {
                     if (type == null) {
                         return Alert.alert("Error", "Please select a type.", [{text: "OK"}], { cancelable: true });
@@ -141,7 +149,7 @@ export function AddSpendingScreen( {route, navigation} ) {
                     navigation.navigate("CurrentMonth");
                 }}
             >
-                <Text style = { styles.addText }>Add</Text>
+                <Text style = { styles.saveText }>Save</Text>
             </Pressable>
 
         </SafeAreaView>
@@ -151,7 +159,7 @@ export function AddSpendingScreen( {route, navigation} ) {
 
 //formatting for each element in FlatList
 const renderItem = ({ item }) => (
-    <View style = { styles.listItem }>
+    <Pressable style = { styles.listItem }>
 
         <View style = {{ flex: -1 }}>
             <Text style = { styles.itemDate }>{ ConvertMonthEnglish(new Date(item.date).getMonth()) } { new Date(item.date).getDate() }</Text>
@@ -160,10 +168,10 @@ const renderItem = ({ item }) => (
         </View>
 
         <View>
-            <Text style = { styles.itemCost }>${ item.cost }</Text>
+            <Text style = { styles.itemCost }>{ FormatCurrency(item.cost) }</Text>
         </View>
 
-    </View>
+    </Pressable>
 );
 
 const styles = StyleSheet.create({
@@ -217,8 +225,6 @@ const styles = StyleSheet.create({
     //styles for Add Spending screen
     textInput: {
         backgroundColor: "#EDE3FE",
-        borderColor: "gray",
-        borderWidth: 1,
         borderRadius: 4,
         margin: 12,
         padding: 10,
@@ -230,8 +236,6 @@ const styles = StyleSheet.create({
     },
     datePickerButton: {
         backgroundColor: "#EDE3FE",
-        borderColor: "gray",
-        borderWidth: 1,
         borderRadius: 4,
         margin: 12,
         marginTop: 24,
@@ -245,7 +249,7 @@ const styles = StyleSheet.create({
         letterSpacing: 0.25,
         color: "black",
     },
-    addButton: {
+    saveButton: {
         backgroundColor: "#EDE3FE",
         borderColor: "gray",
         borderWidth: 1,
@@ -254,7 +258,7 @@ const styles = StyleSheet.create({
         padding: 10,
         elevation: 3,
     },
-    addText: {
+    saveText: {
         fontSize: 16,
         alignSelf: "center",
         lineHeight: 21,

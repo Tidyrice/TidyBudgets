@@ -2,13 +2,15 @@ import * as fs from 'expo-file-system'
 import { MonthData } from './data';
 
 //functions to manage how to save/load data from the local database
-//data should be an object (JSON format)
+//data should be an object (JSON serializable)
 
-export async function SaveMonthAsync(year, month, data) {
+export async function SaveMonthAsync(year, month, data) { //data is a MonthData object
 
     //create the storage folder
     const folderPath = fs.documentDirectory + "months";
-    await fs.makeDirectoryAsync(folderPath);
+    if (!(await fs.getInfoAsync(folderPath)).exists) {
+        await fs.makeDirectoryAsync(folderPath);
+    }
 
     //write file
     const path = folderPath + `/${year}-${month}.json`;

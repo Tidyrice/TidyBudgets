@@ -27,6 +27,18 @@ export function ConvertMonthEnglish(month) {
 
 }
 
+import 'intl';
+import 'intl/locale-data/jsonp/en-US';
+export function FormatCurrency(cost) {
+
+    const currency = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    });
+    return currency.format(cost);
+
+}
+
 export function spliceIndex(spendingArray, spending) { //for MonthData.newSpending()
 
     if (spendingArray.length == 0)
