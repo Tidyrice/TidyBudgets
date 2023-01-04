@@ -49,9 +49,49 @@ export function MonthSummary( {route, navigation} ) {
             </View>
 
             <FlatList
+                ItemSeparatorComponent={
+                    <View style = {styles.listSeparator}/>
+                }
                 data = {monthData.spendingArray}
-                renderItem = {renderItem}
-                extraData = {rerender}
+                renderItem = {({item, index}) => ( //formatting for each element in FlatList
+                    <Pressable
+                        style = {({pressed}) => [
+                            {
+                                opacity: pressed
+                                ? 0.5
+                                : 1
+                            },
+                            styles.listItem
+                        ]}
+                        onPress = {() => {
+                            Alert.alert(
+                                "Delete",
+                                "Remove this spending?",
+                                [
+                                    {text: "Cancel"},
+                                    {text: "Yes", onPress: () => {
+                                        monthData.removeSpending(index);
+                                        trigger(rerender + 1);
+                                    }}
+                                ],
+                                {cancelable: true}
+                            );
+                        }}
+                    >
+                
+                        <View style = {{ flex: -1 }}>
+                            <Text style = {styles.itemDate}>{ConvertMonthEnglish(new Date(item.date).getMonth())} {new Date(item.date).getDate()}</Text>
+                            <Text style = {styles.itemVendor}>{item.vendor}</Text>
+                            <Text style = {styles.itemType}>{item.type}</Text>
+                        </View>
+                
+                        <View>
+                            <Text style = {styles.itemCost}>{FormatCurrency(item.cost)}</Text>
+                        </View>
+            
+                    </Pressable>
+                )}
+                extraData = {rerender} //trigger to rerender flatlist
             />
 
         </SafeAreaView>
@@ -73,9 +113,9 @@ export function AddSpendingScreen( {route, navigation} ) {
         <SafeAreaView>
 
             <Pressable style = {styles.datePickerButton}
-                onPress={() => setOpen(true)}
+                onPress = {() => setOpen(true)}
             >
-                <Text style = {styles.datePickerText}>Select date: {ConvertMonthEnglish(date.getMonth())} {date.getDate()}, {date.getFullYear()}</Text>
+                <Text style = {styles.text}>Select date: {ConvertMonthEnglish(date.getMonth())} {date.getDate()}, {date.getFullYear()}</Text>
             </Pressable>
             <DatePicker modal
                 mode = "date"
@@ -99,16 +139,16 @@ export function AddSpendingScreen( {route, navigation} ) {
                         setType(itemValue)
                     }
                 >
-                    <Picker.Item label = "Select type..." value = {null}/>
-                    <Picker.Item label = "Food" value = "Food" />
-                    <Picker.Item label = "Housing" value = "Housing" />
-                    <Picker.Item label = "Investment" value = "Investment" />
-                    <Picker.Item label = "Insurance" value = "Insurance" />
-                    <Picker.Item label = "Medical" value = "Medical" />
-                    <Picker.Item label = "Personal" value = "Personal" />
-                    <Picker.Item label = "Recreational" value = "Recreational" />
-                    <Picker.Item label = "Transportation" value = "Transportation" />
-                    <Picker.Item label = "Misc." value = "Misc." />
+                    <Picker.Item color = "gray" label = "Select type..." value = {null}/>
+                    <Picker.Item color = "black" label = "Food" value = "Food" />
+                    <Picker.Item color = "black" label = "Housing" value = "Housing" />
+                    <Picker.Item color = "black" label = "Investment" value = "Investment" />
+                    <Picker.Item color = "black" label = "Insurance" value = "Insurance" />
+                    <Picker.Item color = "black" label = "Medical" value = "Medical" />
+                    <Picker.Item color = "black" label = "Personal" value = "Personal" />
+                    <Picker.Item color = "black" label = "Recreational" value = "Recreational" />
+                    <Picker.Item color = "black" label = "Transportation" value = "Transportation" />
+                    <Picker.Item color = "black" label = "Misc." value = "Misc." />
                 </Picker>
             </View>
 
@@ -128,6 +168,8 @@ export function AddSpendingScreen( {route, navigation} ) {
                 label = "Vendor (optional)"
                 maxLength = {30}
             />
+
+            <View style = {styles.separator}/>
   
             <Pressable
                 style = {({pressed}) => [
@@ -153,30 +195,13 @@ export function AddSpendingScreen( {route, navigation} ) {
                     navigation.navigate("CurrentMonth");
                 }}
             >
-                <Text style = {styles.saveText}>Save</Text>
+                <Text style = {styles.text}>Save</Text>
             </Pressable>
 
         </SafeAreaView>
     );
 
 }
-
-//formatting for each element in FlatList
-const renderItem = ({item}) => (
-    <Pressable style = { styles.listItem }>
-
-        <View style = {{ flex: -1 }}>
-            <Text style = {styles.itemDate}>{ConvertMonthEnglish(new Date(item.date).getMonth())} {new Date(item.date).getDate()}</Text>
-            <Text style = {styles.itemVendor}>{item.vendor}</Text>
-            <Text style = {styles.itemType}>{item.type}</Text>
-        </View>
-
-        <View>
-            <Text style = {styles.itemCost}>{FormatCurrency(item.cost)}</Text>
-        </View>
-
-    </Pressable>
-);
 
 const styles = StyleSheet.create({
 
@@ -198,14 +223,13 @@ const styles = StyleSheet.create({
     listItem: { //card for each list element
         backgroundColor: "#BFDFFF",
         borderColor: "gray",
-        borderWidth: 1,
-        borderRadius: 4,
+        borderTopWidth: 1,
+        borderBottomWidth: 1,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
         padding: 20,
-        margin: 10,
-        marginHorizontal: 12,
+        elevation: 3,
     },
     itemDate: {
         paddingBottom: 8,
@@ -224,25 +248,10 @@ const styles = StyleSheet.create({
         paddingLeft: 8,
         fontSize: 28,
     },
+    listSeparator: {
+    },
 
     //styles for Add Spending screen
-    textInput: {
-        backgroundColor: "#EDE3FE",
-        borderColor: "gray",
-        borderWidth: 1,
-        borderRadius: 4,
-        margin: 12,
-        padding: 10,
-        elevation: 3,
-    },
-    picker: {
-        backgroundColor: "#EDE3FE",
-        borderColor: "gray",
-        borderWidth: 1,
-        borderRadius: 4,
-        margin: 12,
-        elevation: 3,
-    },
     datePickerButton: {
         backgroundColor: "#EDE3FE",
         borderColor: "gray",
@@ -253,13 +262,24 @@ const styles = StyleSheet.create({
         padding: 10,
         elevation: 3,
     },
-    datePickerText: {
-        fontSize: 16,
-        alignSelf: "center",
-        lineHeight: 21,
+    textInput: {
+        backgroundColor: "#EDE3FE",
+        borderColor: "gray",
+        borderWidth: 1,
+        borderRadius: 4,
         fontWeight: "bold",
-        letterSpacing: 0.25,
-        color: "black",
+        margin: 12,
+        padding: 8,
+        elevation: 3,
+    },
+    picker: {
+        backgroundColor: "#EDE3FE",
+        borderColor: "gray",
+        borderWidth: 1,
+        borderRadius: 4,
+        margin: 12,
+        padding: 8,
+        elevation: 3,
     },
     saveButton: {
         backgroundColor: "#EDE3FE",
@@ -270,7 +290,13 @@ const styles = StyleSheet.create({
         padding: 10,
         elevation: 3,
     },
-    saveText: {
+    separator: {
+        marginVertical: 12,
+        marginHorizontal: 18,
+        borderColor: "gray",
+        borderTopWidth: 1,
+    },
+    text: {
         fontSize: 16,
         alignSelf: "center",
         lineHeight: 21,

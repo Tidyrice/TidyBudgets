@@ -1,4 +1,5 @@
 import { spliceIndex } from "../scripts";
+import { SaveMonthAsync } from "./SaveSystem";
 
 //This is passed in to the MonthSummary screen to display a specific month's spendings
 export class MonthData {
@@ -19,12 +20,14 @@ export class MonthData {
     newSpending(spending) {
         this.totalSpending += spending.cost;
         this.spendingArray.splice(spliceIndex(this.spendingArray, spending), 0, spending);
+        SaveMonthAsync(this.year, this.month, this);
     }
 
     //delete Spending Object (assume the index exists)
     removeSpending(index) {
         this.totalSpending -= this.spendingArray[index].cost;
         this.spendingArray.splice(index, 1);
+        SaveMonthAsync(this.year, this.month, this);
     }
 
 }
