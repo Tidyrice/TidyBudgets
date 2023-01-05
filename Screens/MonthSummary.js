@@ -8,7 +8,7 @@ import { ConvertMonthEnglish, FormatCurrency } from '../scripts';
 import { MonthData, Spending } from '../Data Management/data';
 
 //takes in MonthSummaryParamter object as parameter (see data.js)
-export function MonthSummary( {route, navigation} ) {
+export function MonthSummary({route, navigation}) {
 
     const [monthData, setMonthData] = useState({});
     const [rerender, trigger] = useState(-1); //flatList rerendering
@@ -109,7 +109,7 @@ export function MonthSummary( {route, navigation} ) {
 
 }
 
-export function AddSpendingScreen( {route, navigation} ) {
+export function AddSpendingScreen({route, navigation}) {
 
     const [date, setDate] = useState(new Date());
     const [open, setOpen] = useState(false); //for select date button

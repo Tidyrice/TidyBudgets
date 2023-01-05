@@ -7,7 +7,7 @@ export default function HomeStackScreen() {
 
   return(
 
-    <HomeStack.Navigator>
+    <HomeStack.Navigator initialRouteName = "CurrentMonth">
 
       <HomeStack.Screen
         name = "CurrentMonth"

@@ -7,12 +7,12 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 //stack navigators
 export const HomeStack = createNativeStackNavigator();
 const StatsStack = createNativeStackNavigator();
-const HistoryStack = createNativeStackNavigator();
+export const HistoryStack = createNativeStackNavigator();
 const ProfileStack = createNativeStackNavigator();
 
 //screens
 import HomeStackScreen from './Screens/Home.js';
-import StatsScreen from './Screens/Stats.js';
+import StatisticsScreen from './Screens/Statistics.js';
 import HistoryScreen from './Screens/History.js';
 import ProfileScreen from './Screens/Profile.js';
 
@@ -36,7 +36,7 @@ export default function App() {
           }}
         />
         <Tab.Screen name = "Statistics"
-          component = {StatsScreen}
+          component = {StatisticsScreen}
           options = {{
             title: "Stats",
             tabBarIcon: ({color}) => (

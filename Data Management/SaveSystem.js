@@ -41,6 +41,10 @@ export async function LoadMonthAsync(year, month) { //returns default MonthData 
 
 }
 
+export async function LoadHistoryAsync() {
+    
+}
+
 export async function SaveProfileAsync(data) {
 
 }
