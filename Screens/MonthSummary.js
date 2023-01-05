@@ -113,8 +113,26 @@ export function AddSpendingScreen( {route, navigation} ) {
 
     const [date, setDate] = useState(new Date());
     const [open, setOpen] = useState(false); //for select date button
+
     const [type, setType] = useState();
+    
     const [cost, setCost] = useState();
+    const onChangeTextCost = (text) => { //currency inputter (obtained from ChatGPT)
+        const formattedText = text.replace(/[^0-9.]/g, '');
+        const parts = formattedText.split('.');
+        if (parts.length > 1) {
+            parts[1] = parts[1].slice(0, 2);
+            const newAmount = parts.join('.');
+            if (newAmount <= 999999.99) {
+              setCost(newAmount);
+            }
+        } else {
+            if (formattedText <= 999999) {
+              setCost(formattedText);
+            }
+        }
+    }
+
     const [vendor, setVendor] = useState();
 
     return (
@@ -163,12 +181,11 @@ export function AddSpendingScreen( {route, navigation} ) {
 
             <TextInput style = {styles.textInput}
                 value = {cost}
-                onChangeText = {setCost}
+                onChangeText = {onChangeTextCost}
                 label = "Cost"
                 placeholder = "$"
-                maxLength = {8}
                 keyboardType = "numeric"
-                
+                maxLength = {9}
             />
 
             <TextInput style = {styles.textInput}
@@ -220,6 +237,8 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     titleContainer: {
+        borderColor: "gray",
+        borderBottomWidth: 1,
         padding: 20,
         backgroundColor: "white",
         elevation: 10,
@@ -241,15 +260,16 @@ const styles = StyleSheet.create({
         elevation: 3,
     },
     itemDate: {
-        paddingBottom: 8,
+        paddingBottom: 10,
         fontSize: 24,
     },
     itemVendor: {
-        paddingBottom: 8,
+        paddingBottom: 10,
         fontSize: 18,
     },
     itemType: {
         fontStyle: "italic",
+        fontWeight: "bold",
         fontSize: 18,
     },
     itemCost: {
@@ -262,7 +282,7 @@ const styles = StyleSheet.create({
 
     //styles for Add Spending screen
     datePickerButton: {
-        backgroundColor: "#EDE3FE",
+        backgroundColor: "#FFE5EC",
         borderColor: "gray",
         borderWidth: 1,
         borderRadius: 4,
@@ -272,7 +292,7 @@ const styles = StyleSheet.create({
         elevation: 3,
     },
     textInput: {
-        backgroundColor: "#EDE3FE",
+        backgroundColor: "#FFE5EC",
         borderColor: "gray",
         borderWidth: 1,
         borderRadius: 4,
@@ -282,7 +302,7 @@ const styles = StyleSheet.create({
         elevation: 3,
     },
     picker: {
-        backgroundColor: "#EDE3FE",
+        backgroundColor: "#FFE5EC",
         borderColor: "gray",
         borderWidth: 1,
         borderRadius: 4,
@@ -291,7 +311,7 @@ const styles = StyleSheet.create({
         elevation: 3,
     },
     saveButton: {
-        backgroundColor: "#EDE3FE",
+        backgroundColor: "#FFD5DC",
         borderColor: "gray",
         borderWidth: 2,
         borderRadius: 4,

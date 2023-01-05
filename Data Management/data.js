@@ -45,7 +45,7 @@ export class Spending {
         this.date = new Date(date);
         this.type = type;
         this.cost = cost;
-        if (vendor == null) {
+        if (vendor == null || vendor.replace(/\s/g, '').length == 0) {
             this.vendor = "- - -";
         } else {
             this.vendor = vendor;
