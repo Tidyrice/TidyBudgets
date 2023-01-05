@@ -5,26 +5,31 @@ import { Picker } from '@react-native-picker/picker';
 import DatePicker from 'react-native-date-picker';
 import { LoadMonthAsync, SaveMonthAsync } from '../Data Management/SaveSystem';
 import { ConvertMonthEnglish, FormatCurrency } from '../scripts';
-import { Spending } from '../Data Management/data';
+import { MonthData, Spending } from '../Data Management/data';
 
 //takes in MonthSummaryParamter object as parameter (see data.js)
 export function MonthSummary( {route, navigation} ) {
 
     const [monthData, setMonthData] = useState({});
-    const [rerender, trigger] = useState(0); //flatList rerendering
+    const [rerender, trigger] = useState(-1); //flatList rerendering
 
-    useEffect(() => { //load data from database
+    //load data from database
+    useEffect(() => {
         LoadMonthAsync(route.params.year, route.params.month)
         .then(data => {
             setMonthData(data); //load data
         });
     }, []);
 
+    //save data when flatlist rerenders
     useEffect(() => {
-        SaveMonthAsync(route.params.year, route.params.month, monthData);
+        if (rerender != -1) { //do not save on first load
+            SaveMonthAsync(route.params.year, route.params.month, monthData);
+        }
     }, [rerender]);
 
-    useEffect(() => { //configure header bar
+    //configure header bar
+    useEffect(() => {
         navigation.setOptions({
             title: ConvertMonthEnglish(monthData.month) + " " + monthData.year,
             headerRight: () => (
