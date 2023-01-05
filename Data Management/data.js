@@ -9,11 +9,11 @@ export class MonthData {
     spendingArray; //array of spending objects sorted based on date (recent first)
     totalSpending; //float
 
-    constructor(year, month) {
+    constructor(year, month, spendingArray, totalSpending) {
         this.year = year;
         this.month = month;
-        this.spendingArray = [];
-        this.totalSpending = 0;
+        this.spendingArray = spendingArray.map(obj => new Spending(obj.date, obj.type, obj.cost, obj.vendor)); //maps the generic objects to Spending objects
+        this.totalSpending = totalSpending;
     }
 
     //add new Spending object sorted based on date
@@ -35,28 +35,17 @@ export class MonthData {
 //Spending object
 export class Spending {
 
-    date; //date object (JSON serialized)
+    date; //date object
     type; //Food, Housing, Investment, Insurance, Medical, Personal, Recreational, Transportation, Misc.
     cost; //float
     vendor; //optional
 
     constructor(date, type, cost, vendor) {
-        this.date = date.toJSON();
+        this.date = new Date(date);
         this.type = type;
         this.cost = cost;
         if (vendor == null) {
             this.vendor = "- - -";
-        } else {
-            this.vendor = vendor;
-        }
-    }
-
-    update(date, type, cost, vendor) {
-        this.date = date.toJSON();
-        this.type = type;
-        this.cost = cost;
-        if (vendor == null) {
-            this.vendor = "--";
         } else {
             this.vendor = vendor;
         }

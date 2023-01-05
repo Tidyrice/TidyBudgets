@@ -16,7 +16,7 @@ export async function SaveMonthAsync(year, month, data) { //data is a MonthData 
     const path = folderPath + `/${year}-${month}.json`;
 
     try {
-        await fs.writeAsStringAsync(path, JSON.stringify(data), 'utf8');
+        await fs.writeAsStringAsync(path, JSON.stringify(data));
     } catch (e) {
         console.log('error', e);
     }
@@ -30,14 +30,14 @@ export async function LoadMonthAsync(year, month) { //returns default MonthData 
     //does the file exist?
     if (!(await fs.getInfoAsync(path)).exists) {
         
-        const empty = new MonthData(year, month);
+        const empty = new MonthData(year, month, [], 0);
         return empty;
 
     }
 
     //read file
-    const data = await JSON.parse(fs.readAsStringAsync(path, 'utf8'));
-    return Object.assign(new MonthData(), data);
+    const data = JSON.parse(await fs.readAsStringAsync(path));
+    return new MonthData(data.year, data.month, data.spendingArray, data.totalSpending);
 
 }
 

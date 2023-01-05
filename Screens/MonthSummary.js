@@ -20,6 +20,10 @@ export function MonthSummary( {route, navigation} ) {
         });
     }, []);
 
+    useEffect(() => {
+        SaveMonthAsync(route.params.year, route.params.month, monthData);
+    }, [rerender]);
+
     useEffect(() => { //configure header bar
         navigation.setOptions({
             title: ConvertMonthEnglish(monthData.month) + " " + monthData.year,
@@ -80,7 +84,7 @@ export function MonthSummary( {route, navigation} ) {
                     >
                 
                         <View style = {{ flex: -1 }}>
-                            <Text style = {styles.itemDate}>{ConvertMonthEnglish(new Date(item.date).getMonth())} {new Date(item.date).getDate()}</Text>
+                            <Text style = {styles.itemDate}>{ConvertMonthEnglish(item.date.getMonth())} {item.date.getDate()}</Text>
                             <Text style = {styles.itemVendor}>{item.vendor}</Text>
                             <Text style = {styles.itemType}>{item.type}</Text>
                         </View>
