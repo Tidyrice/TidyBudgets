@@ -1,7 +1,12 @@
-import { HistoryStack } from '../App';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { MonthSummary, AddSpendingScreen } from './MonthSummary';
+import { Text } from 'react-native'
+import { LoadHistoryAsync } from '../Data Management/SaveSystem';
+import { useEffect, useState } from 'react';
 
-export default function History( {navigation} ) {
+const HistoryStack = createNativeStackNavigator();
+
+export default function HistoryStackScreen() {
 
     return(
 
@@ -9,7 +14,7 @@ export default function History( {navigation} ) {
 
             <HistoryStack.Screen
                 name = "History"
-                component = {History}
+                component = {ListHistory}
             />
 
             <HistoryStack.Screen
@@ -28,9 +33,20 @@ export default function History( {navigation} ) {
 
 }
 
-function HistoryScreen({route, navigation}) {
+function ListHistory({route, navigation}) {
 
-    reutrn(
+    const [monthHistory, setMonthHistory] = useState({});
+
+    //load data from database
+    useEffect(() => {
+        LoadHistoryAsync()
+        .then(data => {
+            console.log(data);
+            setMonthHistory(data); //load data
+        });
+    }, []);
+
+    return(
 
         <Text>History Screen</Text>
 

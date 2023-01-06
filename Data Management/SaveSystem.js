@@ -29,10 +29,8 @@ export async function LoadMonthAsync(year, month) { //returns default MonthData 
 
     //does the file exist?
     if (!(await fs.getInfoAsync(path)).exists) {
-        
         const empty = new MonthData(year, month, [], 0);
         return empty;
-
     }
 
     //read file
@@ -41,8 +39,19 @@ export async function LoadMonthAsync(year, month) { //returns default MonthData 
 
 }
 
-export async function LoadHistoryAsync() {
-    
+export async function LoadHistoryAsync() { //returns array of MonthData objects
+
+    const folderPath = fs.documentDirectory + "months";
+
+    //does the directory exist?
+    if (!(await fs.getInfoAsync(folderPath)).exists) {
+        return [];
+    }
+
+    //read directory
+    const data = await fs.readDirectoryAsync(folderPath);
+    return data.map(obj => new MonthData(obj.year, obj.month, obj.spendingArray, obj.totalSpending)) //maps the generic objects to MonthData objects
+
 }
 
 export async function SaveProfileAsync(data) {

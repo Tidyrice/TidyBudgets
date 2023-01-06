@@ -5,7 +5,7 @@ import { Picker } from '@react-native-picker/picker';
 import DatePicker from 'react-native-date-picker';
 import { LoadMonthAsync, SaveMonthAsync } from '../Data Management/SaveSystem';
 import { ConvertMonthEnglish, FormatCurrency } from '../scripts';
-import { MonthData, Spending } from '../Data Management/data';
+import { Spending } from '../Data Management/data';
 
 //takes in MonthSummaryParamter object as parameter (see data.js)
 export function MonthSummary({route, navigation}) {
@@ -24,6 +24,7 @@ export function MonthSummary({route, navigation}) {
     //save data when flatlist rerenders
     useEffect(() => {
         if (rerender != -1) { //do not save on first load
+            monthData.totalSpending = parseFloat(monthData.totalSpending.toFixed(2)); //limit totalSpending to two decimal places
             SaveMonthAsync(route.params.year, route.params.month, monthData);
         }
     }, [rerender]);

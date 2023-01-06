@@ -4,16 +4,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
-//stack navigators
-export const HomeStack = createNativeStackNavigator();
-const StatsStack = createNativeStackNavigator();
-export const HistoryStack = createNativeStackNavigator();
-const ProfileStack = createNativeStackNavigator();
-
 //screens
 import HomeStackScreen from './Screens/Home.js';
 import StatisticsScreen from './Screens/Statistics.js';
-import HistoryScreen from './Screens/History.js';
+import HistoryStackScreen from './Screens/History.js';
 import ProfileScreen from './Screens/Profile.js';
 
 //bottom tab navigator
@@ -25,8 +19,8 @@ export default function App() {
   return (
     
     <NavigationContainer>
-      <Tab.Navigator initialRouteName = "Home" activeColor = "#ef5d8d" barStyle = {{backgroundColor: "white"}}>
-        <Tab.Screen name = "Home"
+      <Tab.Navigator initialRouteName = "HomeScreen" activeColor = "#ef5d8d" barStyle = {{backgroundColor: "white"}}>
+        <Tab.Screen name = "HomeScreen"
           component = {HomeStackScreen}
           options = {{
             title: "Home",
@@ -35,7 +29,7 @@ export default function App() {
             ),
           }}
         />
-        <Tab.Screen name = "Statistics"
+        <Tab.Screen name = "StatisticsScreen"
           component = {StatisticsScreen}
           options = {{
             title: "Stats",
@@ -44,8 +38,8 @@ export default function App() {
             ),
           }}
         />
-        <Tab.Screen name = "History"
-          component = {HistoryScreen} 
+        <Tab.Screen name = "HistoryScreen"
+          component = {HistoryStackScreen} 
           options = {{
             title: "History",
             tabBarIcon: ({color}) => (
@@ -53,7 +47,7 @@ export default function App() {
             ),
           }}
         />
-        <Tab.Screen name = "Profile"
+        <Tab.Screen name = "ProfileScreen"
           component = {ProfileScreen}
           options = {{
             title: "Profile",

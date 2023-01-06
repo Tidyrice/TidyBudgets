@@ -1,7 +1,9 @@
-import { HomeStack } from '../App';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { MonthSummary, AddSpendingScreen } from './MonthSummary';
 import { CurrentYear, CurrentMonth } from '../scripts.js'
 import { MonthSummaryParameter } from '../Data Management/data';
+
+const HomeStack = createNativeStackNavigator();
 
 export default function HomeStackScreen() {
 
